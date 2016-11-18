@@ -23,12 +23,6 @@ declare -a unscoped_group_array;
 declare -a unscoped_script_array;
 declare -a unscoped_package_array;
 
-if [ -s "$OUTPUTFILE" ]
-then
-	echo "Error: Output file already exists"
-	exit
-fi
-
 function output_to_screen() {
 barline="---------------"
     echo "$TITLE"
