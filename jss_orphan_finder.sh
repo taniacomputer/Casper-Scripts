@@ -9,7 +9,7 @@ read -sp 'Password: ' API_PASSWORD
 
 JSS_ADDRESS="$JSS_ADDRESS/JSSResource"
 
-all_policy_ids=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/policies | xpath /policies/policy/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
+all_policy_ids=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/policies | xpath /policies/policy/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
 
 declare -a all_policy_ids_array=($all_policy_ids);
 declare -a all_scoped_groups_id_array;
@@ -116,7 +116,7 @@ barline="---------------"
 
 function check_groups() {
 	sorted_unique_ids=$(echo "${all_scoped_groups_id_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-	all_group_ids=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups | xpath /computer_groups/computer_group/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
+	all_group_ids=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups | xpath /computer_groups/computer_group/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
 	declare -a all_group_ids_array=($all_group_ids);
 	
 	for group_id in "${all_group_ids_array[@]}" 
@@ -133,7 +133,7 @@ function check_groups() {
 		
 		if [ "$group_found" == "false" ]
 		then
-			group_name=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups/id/"$group_id" | xpath /computer_group/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
+			group_name=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups/id/"$group_id" | xpath /computer_group/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
    	    	group_info="$group_name, $group_id"
 			unscoped_group_array=("${unscoped_group_array[@]}" "$group_info")
 		fi
@@ -143,7 +143,7 @@ function check_groups() {
 
 function check_scripts() {
 	sorted_unique_ids=$(echo "${all_scoped_scripts_id_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-	all_script_ids=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/scripts | xpath /scripts/script/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
+	all_script_ids=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/scripts | xpath /scripts/script/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
 	declare -a all_script_ids_array=($all_script_ids);
 	
 	for script_id in "${all_script_ids_array[@]}" 
@@ -160,7 +160,7 @@ function check_scripts() {
 		
 		if [ "$script_found" == "false" ]
 		then
-			script_name=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/scripts/id/"$script_id" | xpath /script/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
+			script_name=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/scripts/id/"$script_id" | xpath /script/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
    	    	script_info="$script_name, $script_id"
 			unscoped_script_array=("${unscoped_script_array[@]}" "$script_info")
 		fi
@@ -170,7 +170,7 @@ function check_scripts() {
 
 function check_packages() {
 	sorted_unique_ids=$(echo "${all_scoped_packages_id_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
-	all_packages_ids=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/packages | xpath /packages/package/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
+	all_packages_ids=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/packages | xpath /packages/package/id | sed 's/<id>//g' | sed 's/<\/id>/ /g')
 	declare -a all_packages_ids_array=($all_packages_ids);
 	
 	for pkg_id in "${all_packages_ids_array[@]}" 
@@ -187,7 +187,7 @@ function check_packages() {
 		
 		if [ "$pkg_found" == "false" ]
 		then
-			pkg_name=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/packages/id/"$pkg_id" | xpath /package/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
+			pkg_name=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/packages/id/"$pkg_id" | xpath /package/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
    	    	pkg_info="$pkg_name, $pkg_id"
 			unscoped_package_array=("${unscoped_package_array[@]}" "$pkg_info")
 		fi
@@ -197,7 +197,7 @@ function check_packages() {
 
 function check_static_groups() {
 	
-	all_group_ids=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups)
+	all_group_ids=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups)
 	declare -a all_group_ids_array=($all_group_ids);
 	
 	for group_id in "${all_group_ids_array[@]}" 
@@ -214,7 +214,7 @@ function check_static_groups() {
 		
 		if [ "$group_found" == "false" ]
 		then
-			group_name=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups/id/"$group_id" | xpath /computer_group/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
+			group_name=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/computergroups/id/"$group_id" | xpath /computer_group/name | sed 's/<name>//g' | sed 's/<\/name>/ /g')
    	    	group_info="$group_name, $group_id"
 			unscoped_group_array=("${unscoped_group_array[@]}" "$group_info")
 		fi
@@ -223,7 +223,7 @@ function check_static_groups() {
 
 for id in "${all_policy_ids_array[@]}"
 do
-    policy_get=$(curl -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/policies/id/"$id")
+    policy_get=$(curl -H "Accept: application/xml" -k -u "$API_USERNAME":"$API_PASSWORD" "$JSS_ADDRESS"/policies/id/"$id")
 
     site=$(echo "$policy_get" | xpath /policy/general/site/id | sed -e 's/<id>//;s/<\/id>//')
     category=$(echo "$policy_get" | xpath /policy/general/category/id | sed -e 's/<id>//;s/<\/id>//')
